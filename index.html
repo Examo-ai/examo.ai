@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mistral Test Creator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #10b981;
+            --text-color: #1f2937;
+            --light-text: #6b7280;
+            --background-color: #f9fafb;
+            --card-color: #ffffff;
+            --border-color: #e5e7eb;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --error-color: #ef4444;
+            --success-color: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #0ca678;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background-color: var(--card-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--background-color);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px var(--shadow-color);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 5rem 0;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        /* Chat Interface */
+        .chat-container {
+            display: none;
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: var(--card-color);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .chat-messages {
+            padding: 1.5rem;
+            height: 400px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+            position: relative;
+        }
+
+        .bot-message {
+            background-color: var(--background-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem 0 0 0.5rem;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .chat-input button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* PDF Preview */
+        .pdf-preview {
+            display: none;
+            max-width: 800px;
+            margin: 2rem auto;
+            background-color: var(--card-color);
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            padding: 2rem;
+        }
+
+        .pdf-content {
+            background-color: white;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            min-height: 500px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .step {
+                flex-direction: column;
+            }
+
+            .step-number {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="home-page">
+        <header>
+            <div class="container">
+                <nav>
+                    <a href="#" class="logo"><i class="fas fa-brain"></i> Mistral Test Creator</a>
+                    <div class="nav-links">
+                        <a href="#features">Funktionen</a>
+                        <a href="#how-it-works">Wie es funktioniert</a>
+                        <a href="#" id="create-test-btn">Test erstellen</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <h1>Erstelle intelligente Tests mit KI</h1>
+                <p>Nutze die Kraft der künstlichen Intelligenz, um personalisierte Quizze, Tests und Klassenarbeiten für jeden Bildungsbereich zu erstellen. Einfach, schnell und effektiv.</p>
+                <a href="#" class="btn" id="hero-create-btn">Test erstellen</a>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-title">Funktionen</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                        <h3>KI-gestützte Erstellung</h3>
+                        <p>Unser intelligenter Chatbot führt dich durch den Erstellungsprozess und generiert maßgeschneiderte Inhalte basierend auf deinen Anforderungen.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                        <h3>Vielfältige Testformate</h3>
+                        <p>Erstelle Quizze, kurze Tests oder umfangreiche Klassenarbeiten für verschiedene Fächer und Schwierigkeitsgrade.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-file-pdf"></i></div>
+                        <h3>PDF-Export</h3>
+                        <p>Lade deine erstellten Tests als professionell formatierte PDF-Dateien herunter, bereit zum Ausdrucken oder digitalen Teilen.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="how-it-works" id="how-it-works">
+            <div class="container">
+                <h2 class="section-title">Wie es funktioniert</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Wähle deinen Testtyp</h3>
+                            <p>Entscheide, ob du ein Quiz, einen kurzen Test oder eine umfangreiche Klassenarbeit erstellen möchtest.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Gib deine Anforderungen an</h3>
+                            <p>Teile unserem Chatbot mit, für welches Fach, Thema und welchen Schwierigkeitsgrad du einen Test benötigst.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Verfeinere die Aufgaben</h3>
+                            <p>Überprüfe die vorgeschlagenen Aufgaben und gib Feedback, um sie an deine Bedürfnisse anzupassen.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Generiere und lade herunter</h3>
+                            <p>Sobald du zufrieden bist, generiere den fertigen Test und lade ihn als PDF-Datei herunter.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Startseite</a>
+                        <a href="#features">Funktionen</a>
+                        <a href="#how-it-works">Wie es funktioniert</a>
+                    </div>
+                    <p class="copyright">&copy; 2025 Mistral Test Creator. Alle Rechte vorbehalten.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Test Creation Page -->
+    <div id="test-page" style="display: none;">
+        <header>
+            <div class="container">
+                <nav>
+                    <a href="#" class="logo" id="back-to-home"><i class="fas fa-brain"></i> Mistral Test Creator</a>
+                    <div class="nav-links">
+                        <a href="#" id="download-pdf" style="display: none;">PDF herunterladen</a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="chat-container" id="chat-container">
+                <div class="chat-header">
+                    <h2>Test-Erstellung mit KI</h2>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be added here dynamically -->
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Deine Antwort hier eingeben...">
+                    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Dein Test wird erstellt...</p>
+            </div>
+
+            <div class="pdf-preview" id="pdf-preview">
+                <h2>Dein Test ist fertig!</h2>
+                <div class="pdf-content" id="pdf-content">
+                    <!-- PDF content will be added here dynamically -->
+                </div>
+                <button class="btn" id="download-btn">Als PDF herunterladen</button>
+                <button class="btn btn-secondary" id="new-test-btn">Neuen Test erstellen</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        const apiKey = 'yYaudO3HSHjTRs8aeQ6AYxVlVlPhoa3v';
+        const apiUrl = 'https://api.mistral.ai/v1/chat/completions';
+        let conversation = [];
+        let testType = '';
+        let subject = '';
+        let topic = '';
+        let difficulty = '';
+        let additionalInfo = '';
+        let currentStep = 'test_type';
+        let testContent = '';
+
+        // DOM Elements
+        const homePage = document.getElementById('home-page');
+        const testPage = document.getElementById('test-page');
+        const createTestBtn = document.getElementById('create-test-btn');
+        const heroCreateBtn = document.getElementById('hero-create-btn');
+        const backToHomeBtn = document.getElementById('back-to-home');
+        const chatContainer = document.getElementById('chat-container');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const loading = document.getElementById('loading');
+        const pdfPreview = document.getElementById('pdf-preview');
+        const pdfContent = document.getElementById('pdf-content');
+        const downloadBtn = document.getElementById('download-btn');
+        const downloadPdfLink = document.getElementById('download-pdf');
+        const newTestBtn = document.getElementById('new-test-btn');
+
+        // Event Listeners
+        createTestBtn.addEventListener('click', startTestCreation);
+        heroCreateBtn.addEventListener('click', startTestCreation);
+        backToHomeBtn.addEventListener('click', goBackToHome);
+        sendBtn.addEventListener('click', handleUserInput);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleUserInput();
+            }
+        });
+        downloadBtn.addEventListener('click', downloadPDF);
+        downloadPdfLink.addEventListener('click', downloadPDF);
+        newTestBtn.addEventListener('click', resetTestCreation);
+
+        // Functions
+        function startTestCreation() {
+            homePage.style.display = 'none';
+            testPage.style.display = 'block';
+            chatContainer.style.display = 'block';
+            
+            // Start the conversation
+            addBotMessage("Hallo! Ich bin dein KI-Assistent für die Testerstellung. Was möchtest du erstellen? Ein Quiz, einen Test (kurz) oder eine Klassenarbeit?");
+        }
+
+        function goBackToHome() {
+            testPage.style.display = 'none';
+            homePage.style.display = 'block';
+            resetTestCreation();
+        }
+
+        function resetTestCreation() {
+            conversation = [];
+            testType = '';
+            subject = '';
+            topic = '';
+            difficulty = '';
+            additionalInfo = '';
+            currentStep = 'test_type';
+            testContent = '';
+            
+            chatMessages.innerHTML = '';
+            pdfPreview.style.display = 'none';
+            chatContainer.style.display = 'block';
+            downloadPdfLink.style.display = 'none';
+            
+            // Start the conversation again
+            addBotMessage("Hallo! Ich bin dein KI-Assistent für die Testerstellung. Was möchtest du erstellen? Ein Quiz, einen Test (kurz) oder eine Klassenarbeit?");
+        }
+
+        function handleUserInput() {
+            const message = userInput.value.trim();
+            if (message === '') return;
+            
+            addUserMessage(message);
+            userInput.value = '';
+            
+            // Process user input based on current step
+            processUserInput(message);
+        }
+
+        function processUserInput(message) {
+            // Add to conversation history
+            conversation.push({
+                role: "user",
+                content: message
+            });
+            
+            switch(currentStep) {
+                case 'test_type':
+                    processTestType(message);
+                    break;
+                case 'subject':
+                    processSubject(message);
+                    break;
+                case 'topic':
+                    processTopic(message);
+                    break;
+                case 'difficulty':
+                    processDifficulty(message);
+                    break;
+                case 'additional_info':
+                    processAdditionalInfo(message);
+                    break;
+                case 'refining':
+                    processRefinement(message);
+                    break;
+                default:
+                    // Default fallback
+                    addBotMessage("Entschuldigung, ich verstehe nicht. Lass uns von vorne beginnen.");
+                    resetTestCreation();
+            }
+        }
+
+        function processTestType(message) {
+            const lowerMessage = message.toLowerCase();
+            if (lowerMessage.includes('quiz')) {
+                testType = 'Quiz';
+            } else if (lowerMessage.includes('test')) {
+                testType = 'Test';
+            } else if (lowerMessage.includes('klassenarbeit')) {
+                testType = 'Klassenarbeit';
+            } else {
+                addBotMessage("Ich habe nicht verstanden, welchen Testtyp du erstellen möchtest. Bitte wähle zwischen Quiz, Test oder Klassenarbeit.");
+                return;
+            }
+            
+            addBotMessage(`Großartig! Du möchtest also ein ${testType} erstellen. Für welches Fach oder Themenbereich soll es sein?`);
+            currentStep = 'subject';
+        }
+
+        function processSubject(message) {
+            subject = message;
+            addBotMessage(`Alles klar, ein ${testType} für ${subject}. Welches spezifische Thema innerhalb von ${subject} möchtest du behandeln?`);
+            currentStep = 'topic';
+        }
+
+        function processTopic(message) {
+            topic = message;
+            addBotMessage(`Perfekt! Jetzt brauche ich noch eine Schwierigkeitsstufe von 1-10 (1: sehr einfach, 10: sehr schwer) für dein ${testType} über ${topic} in ${subject}.`);
+            currentStep = 'difficulty';
+        }
+
+        function processDifficulty(message) {
+            // Try to extract a number from the message
+            const difficultyMatch = message.match(/\d+/);
+            if (difficultyMatch) {
+                const difficultyNum = parseInt(difficultyMatch[0]);
+                if (difficultyNum >= 1 && difficultyNum <= 10) {
+                    difficulty = difficultyNum;
+                    addBotMessage(`Schwierigkeitsstufe ${difficulty} ausgewählt. Möchtest du noch zusätzliche Informationen hinzufügen? Zum Beispiel spezifische Inhalte, Anzahl der Aufgaben oder Seiten. Wenn nicht, schreibe einfach "los".`);
+                    currentStep = 'additional_info';
+                    return;
+                }
+            }
+            
+            addBotMessage("Bitte gib eine Schwierigkeitsstufe zwischen 1 und 10 an.");
+        }
+
+        function processAdditionalInfo(message) {
+            if (message.toLowerCase() === 'los') {
+                additionalInfo = 'Keine zusätzlichen Informationen.';
+            } else {
+                additionalInfo = message;
+            }
+            
+            addBotMessage("Ich erstelle jetzt einige Beispielaufgaben basierend auf deinen Angaben. Einen Moment bitte...");
+            
+            // Generate example questions
+            generateExampleQuestions();
+        }
+
+        function processRefinement(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('fertigstellen')) {
+                addBotMessage("Großartig! Ich erstelle jetzt den vollständigen Test basierend auf deinen Anforderungen. Das kann einen Moment dauern...");
+                
+                // Hide chat and show loading
+                chatContainer.style.display = 'none';
+                loading.style.display = 'block';
+                
+                // Generate the full test
+                generateFullTest();
+            } else {
+                // Add the feedback to conversation
+                addBotMessage("Danke für dein Feedback. Ich passe die Aufgaben entsprechend an...");
+                
+                // Regenerate example questions with the feedback
+                conversation.push({
+                    role: "assistant",
+                    content: "Ich werde die Aufgaben basierend auf deinem Feedback anpassen."
+                });
+                
+                generateExampleQuestions(message);
+            }
+        }
+
+        async function generateExampleQuestions(feedback = '') {
+            // Prepare the prompt for example questions
+            let prompt = `Du bist ein Bildungsexperte, der ${testType}fragen erstellt. 
+            Erstelle 3 Beispielaufgaben für ein ${testType} zum Thema "${topic}" im Fach "${subject}" mit Schwierigkeitsgrad ${difficulty}/10.
+            ${additionalInfo !== 'Keine zusätzlichen Informationen.' ? 'Zusätzliche Anforderungen: ' + additionalInfo : ''}
+            ${feedback ? 'Berücksichtige folgendes Feedback: ' + feedback : ''}
+            
+            Gib nur die Aufgaben zurück, keine Einleitung oder zusätzlichen Text.`;
+            
+            try {
+                const response = await callMistralAPI(prompt);
+                
+                // Add the example questions to the chat
+                addBotMessage(response);
+                addBotMessage("Wie findest du diese Aufgaben? Wenn sie deinen Vorstellungen entsprechen, schreibe 'Fertigstellen'. Ansonsten gib mir Feedback, wie ich sie anpassen soll (z.B. 'einfachere Vokabeln', 'schwierigere Aufgaben', etc.).");
+                
+                currentStep = 'refining';
+            } catch (error) {
+                console.error('Error generating example questions:', error);
+                addBotMessage("Es gab ein Problem bei der Erstellung der Beispielaufgaben. Fehler: " + error.message);
+            }
+        }
+
+        async function generateFullTest() {
+            // Prepare the prompt for the full test
+            let prompt = `Du bist ein Bildungsexperte, der hochwertige ${testType}e erstellt.
+            
+            Erstelle ein vollständiges ${testType} zum Thema "${topic}" im Fach "${subject}" mit Schwierigkeitsgrad ${difficulty}/10.
+            
+            Zusätzliche Informationen: ${additionalInfo}
+            
+            Das ${testType} sollte folgendes enthalten:
+            1. Einen Titel
+            2. Kurze Anweisungen
+            3. Verschiedene Aufgabentypen, die für das Thema und Fach angemessen sind
+            4. Eine klare Struktur mit nummerierten Aufgaben
+            5. Angemessenen Schwierigkeitsgrad (${difficulty}/10)
+            
+            Formatiere das ${testType} professionell, als ob es in einer Bildungseinrichtung verwendet werden würde.`;
+            
+            try {
+                const response = await callMistralAPI(prompt);
+                
+                // Save the test content
+                testContent = response;
+                
+                // Display the PDF preview
+                displayPDFPreview(response);
+                
+                // Show download link in nav
+                downloadPdfLink.style.display = 'block';
+            } catch (error) {
+                console.error('Error generating full test:', error);
+                loading.style.display = 'none';
+                chatContainer.style.display = 'block';
+                addBotMessage("Es gab ein Problem bei der Erstellung des Tests. Bitte versuche es erneut.");
+            }
+        }
+
+        async function callMistralAPI(prompt) {
+            // Add system message to conversation
+            if (conversation.length === 0 || conversation[0].role !== 'system') {
+                conversation.unshift({
+                    role: "system",
+                    content: "Du bist ein hilfreicher Bildungsexperte, der hochwertige Lernmaterialien erstellt. Alle Antworten sollen auf Deutsch sein."
+                });
+            }
+            
+            // Hier wird der Prompt als user-Nachricht hinzugefügt (statt als assistant-Nachricht)
+            conversation.push({
+                role: "user",
+                content: prompt
+            });
+            
+            // Prepare the API request
+            const requestBody = {
+                model: "mistral-large-latest",
+                messages: conversation,
+                temperature: 0.7,
+                max_tokens: 4000
+            };
+            
+            // Call the API
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify(requestBody)
+            });
+            
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}`);
+            }
+            
+            const data = await response.json();
+            return data.choices[0].message.content;
+        }
+
+        function displayPDFPreview(content) {
+            // Format the content with HTML
+            const formattedContent = content.replace(/\n/g, '<br>');
+            
+            // Add a title based on the test type and topic
+            const title = `${testType}: ${topic} (${subject})`;
+            
+            // Create the HTML for the PDF preview
+            pdfContent.innerHTML = `
+                <h1 style="text-align: center; margin-bottom: 2rem;">${title}</h1>
+                <div>${formattedContent}</div>
+            `;
+            
+            // Hide loading and show PDF preview
+            loading.style.display = 'none';
+            pdfPreview.style.display = 'block';
+        }
+
+        function downloadPDF() {
+            // Get the PDF content element
+            const element = document.getElementById('pdf-content');
+            
+            // Create a title for the PDF
+            const title = `${testType}_${subject}_${topic}`.replace(/\s+/g, '_');
+            
+            // Use html2canvas to capture the content
+            html2canvas(element).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                
+                // Calculate the width and height to fit on A4
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 295; // A4 height in mm
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                // Add the first page
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                // Add additional pages if needed
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Save the PDF
+                pdf.save(`${title}.pdf`);
+            });
+        }
+
+        function addUserMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'user-message');
+            messageElement.textContent = message;
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function addBotMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'bot-message');
+            messageElement.innerHTML = message.replace(/\n/g, '<br>');
+            chatMessages.appendChild(messageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            // Add to conversation history
+            conversation.push({
+                role: "assistant",
+                content: message
+            });
+        }
+    </script>
+</body>
+</html>
